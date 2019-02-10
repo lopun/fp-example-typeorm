@@ -8,14 +8,6 @@ export const verifyJWT = R.curry(jwt.verify)(
   selfOrEmptyString(process.env.JWT_TOKEN)
 );
 
-export const cleanNullArgs = args =>
-  R.pipe(
-    R.keys,
-    R.filter(key => args[key] !== null),
-    R.map(key => ({ [key]: args[key] })),
-    R.apply(Object.assign, R.__)
-  )(args);
-
 export const createJWT = R.curry(jwt.sign)(
   R.__,
   selfOrEmptyString(process.env.JWT_TOKEN)

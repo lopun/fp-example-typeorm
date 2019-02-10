@@ -19,9 +19,8 @@ class User extends Abstract {
   @Column({ type: "text", select: false })
   password: string;
 
-  public comparePassword(password: string): Promise<boolean> {
-    return bcrypt.compare(password, this.password);
-  }
+  public comparePassword = (password: string): Promise<boolean> =>
+    bcrypt.compare(password, this.password);
 
   @BeforeInsert()
   @BeforeUpdate()
@@ -29,7 +28,6 @@ class User extends Abstract {
     if (this.password) {
       const hashedPassword = await this.hashPassword(this.password);
       this.password = hashedPassword;
-      console.log(this.password);
     }
   }
 

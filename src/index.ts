@@ -13,7 +13,7 @@ import { createConnection } from "typeorm";
 import ormConfig from "./ormConfig";
 
 // app starting console!
-const PORT: number = Number(process.env.PORT) || 4000;
+const PORT: number = Number(process.env.PORT) || 3000;
 const handleAppStart = () => console.log(`Listening on port ${PORT}`);
 const appListener = () => app.listen(PORT, handleAppStart);
 

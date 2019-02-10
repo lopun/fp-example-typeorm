@@ -4,7 +4,7 @@
   "description": "Functional Programming example by using typeorm :)",
   "main": "index.js",
   "scripts": {
-    "dev": "cross-env NODE_ENV=development ts-node src/index.ts",
+    "dev": "cross-env NODE_ENV=development nodemon --exec ts-node -r tsconfig-paths/register src/index.ts -e ts,graphql",
     "start": "cross-env NODE_PATH=dist/ node start dist/src/index.js",
     "build": "tsc"
   },
@@ -20,6 +20,7 @@
   "homepage": "https://github.com/lopun/fp-example-typeorm#readme",
   "dependencies": {
     "bcrypt": "^3.0.4",
+    "body-parser": "^1.18.3",
     "class-validator": "^0.9.1",
     "cors": "^2.8.5",
     "cross-env": "^5.2.0",
@@ -28,6 +29,7 @@
     "jsonwebtoken": "^8.4.0",
     "mysql": "^2.16.0",
     "ramda": "^0.26.1",
+    "tsconfig-paths": "^3.8.0",
     "typeorm": "^0.2.12",
     "typescript": "^3.3.3"
   },

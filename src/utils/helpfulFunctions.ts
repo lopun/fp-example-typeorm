@@ -1,5 +1,21 @@
 import R from "ramda";
 
+export const cleanNullArgs = args =>
+  R.pipe(
+    R.keys,
+    R.filter(key => args[key] !== null),
+    R.map(key => ({ [key]: args[key] })),
+    R.apply(Object.assign, R.__)
+  )(args);
+
+export const cleanUselessProperties = (argsToUse, object) =>
+  R.pipe(
+    R.keys,
+    R.filter(R.contains(R.__, argsToUse)),
+    R.map(key => ({ [key]: object[key] })),
+    R.apply(Object.assign, R.__)
+  )(object);
+
 export const selfOrUndefined = R.cond([
   [R.isNil, R.always(undefined)],
   [R.T, R.identity]
