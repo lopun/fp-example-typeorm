@@ -2,9 +2,11 @@ import {
   BaseEntity,
   CreateDateColumn,
   PrimaryGeneratedColumn,
-  UpdateDateColumn
+  UpdateDateColumn,
+  Entity
 } from "typeorm";
 
+@Entity()
 class Abstract extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;

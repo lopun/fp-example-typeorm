@@ -8,14 +8,13 @@ export const cleanNullArgs = args =>
     R.apply(Object.assign, R.__)
   )(args);
 
-export const cleanUselessProperties = R.curry((argsToUse, object) =>
+export const cleanUselessProperties = argsToUse => object =>
   R.pipe(
     R.keys,
     R.filter(R.contains(R.__, argsToUse)),
     R.map(key => ({ [key]: object[key] })),
     R.apply(Object.assign, R.__)
-  )(object)
-);
+  )(object);
 
 export const selfOrUndefined = R.cond([
   [R.isNil, R.always(undefined)],
