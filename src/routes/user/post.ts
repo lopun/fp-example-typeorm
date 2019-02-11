@@ -2,28 +2,34 @@ import User from "../../entities/User";
 import { cleanUselessProperties } from "../../utils/helpfulFunctions";
 import R from "ramda";
 
-const sendResponse = res => R.curry((user, error) => res.send({ user, error }));
+const sendResponse = R.curry((res, status, user, error) =>
+  res.status(status).send({ user, error })
+);
+const createUserWithCleanParams = R.pipe(
+  User.create,
+  R.then(instance => instance.save())
+);
 
 const post = app =>
   app.post("/user", (req, res) =>
-    R.pipe(
-      body => User.findOne({ email: body.email }),
-      R.then(
-        R.ifElse(
-          R.isNil,
-          R.pipe(
+    R.tryCatch(
+      R.pipe(
+        cleanUselessProperties(["email", "name", "age", "password"]),
+        body => User.findOne({ email: body.email }),
+        R.then(
+          R.ifElse(
+            R.isNil,
             () =>
-              cleanUselessProperties(
-                ["email", "name", "age", "password"],
-                req.body
-              ),
-            params => User.create(params).save(),
-            R.then(sendResponse(res)(R.__, null))
-          ),
-          sendResponse(res)(R.__, "User already exists!")
+              R.pipe(
+                createUserWithCleanParams,
+                R.then(sendResponse(res)(201, R.__, null))
+              )(req.body),
+            sendResponse(res)(401, R.__, "User already exists!")
+          )
         )
-      )
-    )(req.body)
+      )(req.body),
+      error => sendResponse(res)(500, null, error.message)
+    )
   );
 
 export default post;
